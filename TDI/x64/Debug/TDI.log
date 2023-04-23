@@ -1,0 +1,4 @@
+﻿  TDI.cpp
+C:\Users\Usuario\Desktop\TDI\practicaTDI\Source\TDI.cpp(14,7): warning C4101: 'nombreImagenNueva': variable local sin referencia
+IMtdi_VS2022_Debug.lib(C_Matrix.obj) : warning LNK4099: no se encontró PDB '' con 'IMtdi_VS2022_Debug.lib(C_Matrix.obj)' o en ''; se vinculará el objeto sin tener en cuenta información de depuración
+  TDI.vcxproj -> C:\Users\Usuario\Desktop\TDI\practicaTDI\x64\Debug\TDI.exe
