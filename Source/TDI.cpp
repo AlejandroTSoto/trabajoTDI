@@ -9,9 +9,9 @@
 #include <C_Image.hpp>
 
 // Inicializacion de los metodos que se utilizaran
-void aplicarConvolucion(C_Image& imagen1, C_Image& imagen2);
-void crearFiltro(C_Matrix &filtro);
-double calcularConvolucion(C_Image imagenCalculo, C_Matrix filtro);
+void aplicarConvolucion(C_Image imagen1, C_Image imagen2);
+void crearFiltro(C_Matrix& filtro);
+double calcularConvolucion(C_Image imagenCalculo, C_Matrix& filtro);
 
 // Se declara la variable aqui para poder utilizarla a la hora de usarla en el switch que crea la matriz o kernel del filtro elegido
 int numeroSeleccion;
@@ -70,22 +70,50 @@ int main(int argc, char** argv) {
 }
 
 // Metodo creado para aplicar la convolucion a la imagen tras haber hecho uso de los metodos crearFiltro y calcularConvolucion
-void aplicarConvolucion(C_Image& imagen1, C_Image& imagen2) {
+void aplicarConvolucion(C_Image imagen1, C_Image imagen2) {
 	// Inicializo la variable filtro que se usara a continuacion para poder generar la matriz o kernel del filtro deseado
 	C_Matrix filtro(1, 3, 1, 3);
 	// Inicializo la variableAuxiilar que se usara para almacenar los valores del pixel con el que se trabaja y los de sus alrededores(1 + 8) de la imagen
 	C_Image matrizAuxiliar(1, 3, 1, 3);
 	crearFiltro(filtro);
 	// Recorro las filas y columnas de la matriz de la imagen
+	cout << "Antes del bucle";
 	for (int i = imagen1.FirstRow(); i <= imagen1.LastRow(); i++) {
+		cout << "bluce i";
 		for (int j = imagen1.FirstCol(); j <= imagen1.LastCol(); j++) {
+			cout << "bucle j";
 			// Se comprueba si el pixel selecionado esta dentro de la matriz
 			if (i - 1 >= imagen1.FirstRow() && i + 1 <= imagen1.LastRow() && j - 1 >= imagen1.FirstCol() && j + 1 <= imagen1.LastCol()) {
+				cout << "Condicion del if";
 				// En el caso de si estarlo, se recorro las filas y columnas de la matriz matrizAuxiliar
+				/*for (int k = -1; k <= 1; k++) {
+					for (int l = -1; l <= 1; l++) {
+						if (i + k >= imagen1.FirstRow() && i + k <= imagen1.LastRow() && j + l >= imagen1.FirstCol() && j + l <= imagen1.LastCol()) {
+							matrizAuxiliar(k + 2, l + 2) = imagen1(i + k, j + l);
+						}
+						else {
+							matrizAuxiliar(k + 2, l + 2) = 0;
+						}
+					}
+				}*/
 				for (int k = 1; k <= 3; k++) {
+					cout << "bucle k";
 					for (int l = 1; l <= 3; l++) {
+						cout << "bucle l";
 						// MatrizAuxiliar sera rellenada con los pixeles(1+8) de la imagen seleccionada
+						/*int valor1 = i + k - 1 - 1;
+						int valor2 = j + l - 1 - 1;
+						if (valor1 <= 0) {
+							valor1 = 1;
+						}
+						if (valor2 <= 0) {
+							valor2 = 1;
+						}*/
 						matrizAuxiliar(k, l) = imagen1(i + k - 1 - 1, j + l - 1 - 1);
+						// A LA HORA DE HACER CALCULOS, PUEDE DARSE EL CASO DE QUE TE DE 0 Y EXPLOTE
+						// AVERIGUAR COMO FORZAR QUE ESOS VALORES NO DEN 0
+						// FALLA EN EL PRIMER BUCLE
+						// PUEDE SER QUE ADEMAS ESTE FALLANDO EL TEMA DE QUE SEA UNA IMAGEN, PASARLO A UNA MATRIZ
 					}
 				}
 				// Se llama al metodo calcularConvolucion y se realiza la multiplicacion entre la matrizAuxiliar y la matriz o kernel filtro
@@ -114,7 +142,7 @@ void aplicarConvolucion(C_Image& imagen1, C_Image& imagen2) {
 }
 
 // Metodo creado para calcular la convolucion de la imagen matriz de la imagen obtenida 
-double calcularConvolucion(C_Image matrizCalculo, C_Matrix filtro) {
+double calcularConvolucion(C_Image matrizCalculo, C_Matrix& filtro) {
 	double suma = 0;
 
 	// Se recorren las filas y columnas de la matriz de la imagen obtenida y se multiplica por cada valor correspondiente de la matriz del filtro elegido
@@ -127,7 +155,7 @@ double calcularConvolucion(C_Image matrizCalculo, C_Matrix filtro) {
 }
 
 // Metodo creado para crear las diferentes matrices o kernels de los filtros que hay disponibles
-void crearFiltro(C_Matrix &filtro) {
+void crearFiltro(C_Matrix& filtro) {
 	switch (numeroSeleccion) {
 	case 1:
 		//Matriz o kernel del filtro de Difuminado

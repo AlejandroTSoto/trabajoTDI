@@ -1,5 +1,5 @@
 ﻿  TDI.cpp
-C:\Users\Usuario\Desktop\TDI\trabajoTDI\Source\TDI.cpp(95,23): warning C4244: '=': conversión de 'C_Matrix::ElementT' a 'int'; posible pérdida de datos
+C:\Users\Usuario\Desktop\TDI\trabajoTDI\Source\TDI.cpp(123,31): warning C4244: '=': conversión de 'C_Matrix::ElementT' a 'int'; posible pérdida de datos
 IMtdi_VS2022_Debug.lib(C_File.obj) : warning LNK4099: no se encontró PDB '' con 'IMtdi_VS2022_Debug.lib(C_File.obj)' o en ''; se vinculará el objeto sin tener en cuenta información de depuración
 IMtdi_VS2022_Debug.lib(C_Matrix.obj) : warning LNK4099: no se encontró PDB '' con 'IMtdi_VS2022_Debug.lib(C_Matrix.obj)' o en ''; se vinculará el objeto sin tener en cuenta información de depuración
 IMtdi_VS2022_Debug.lib(C_Image.obj) : warning LNK4099: no se encontró PDB '' con 'IMtdi_VS2022_Debug.lib(C_Image.obj)' o en ''; se vinculará el objeto sin tener en cuenta información de depuración
