@@ -89,23 +89,25 @@ void aplicarConvolucion(C_Image& imagen1, C_Image& imagen2) {
 					}
 				}
 				// Se llama al metodo calcularConvolucion y se realiza la multiplicacion entre la matrizAuxiliar y la matriz o kernel filtro
-				double valor = calcularConvolucion(matrizAuxiliar, filtro);
+				double valorResultado = calcularConvolucion(matrizAuxiliar, filtro);
 
-				int sumaf = 0;
-				sumaf = filtro.Sum();
+				// Se realiza la suma de los valores de la matriz filtro para sacar el valor promedio y forzar que este siempre sea 1
+				// El valor promedio se utiliza para que el resultado de la convolucion tenga una intensidad uniforme y que los detalles importantes de la imagen no se pierdan o distorsionen
+				int valorPromedio = 0;
+				valorPromedio = filtro.Sum();
+				if (valorPromedio == 0) {
+					valorPromedio = 1;
+				}
 
-				if (sumaf == 0) {
-					sumaf = 1;
+				// Una vez obtenido el valor promedio de los valores de la matriz filtro, se divide el valorResultado entre el valorPromedio y el resultado estara limitado para que no salga de los limites de los colores (de 0 a 255)
+				valorResultado = valorResultado / valorPromedio;
+				if (valorResultado < 0) {
+					valorResultado = 0;
+				} else if (valorResultado > 255) {
+					valorResultado = 255;
 				}
-				;
-				valor = valor / sumaf;
-				if (valor < 0) {
-					valor = 0;
-				}
-				if (valor > 255) {
-					valor = 255;
-				}
-				imagen2(i, j) = valor;
+				// Finalmente, el valor obtenido sera el que se cargue en la imagen2
+				imagen2(i, j) = valorResultado;
 			}
 		}
 	}
