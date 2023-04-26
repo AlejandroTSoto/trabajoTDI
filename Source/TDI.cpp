@@ -11,7 +11,11 @@
 #include <C_Matrix.hpp>
 #include <C_Image.hpp>
 
-using namespace std::filesystem;
+void aplicarConvolucion(C_Image imagen1, C_Image& imagen2);
+void crearFiltro(C_Matrix& filtro);
+double calcularConvolucion(C_Image m, C_Matrix filtro);
+
+int numeroSeleccion;
 
 int main(int argc, char** argv) {
 	//return Test(argc, argv);
@@ -19,7 +23,6 @@ int main(int argc, char** argv) {
 	C_Image imagen2(imagen1);
 	char nombreImagen[50];
 	char nombreImagenNueva[50];
-	int numeroSeleccion;
 
 	// Pedimos al usuario que introduzca el nombre de una imagen
 	cout << "Introduce el nombre de una imagen: \n";
@@ -35,7 +38,6 @@ int main(int argc, char** argv) {
 		cout << "3 para aplicar filtro de contorno.\n";
 		cout << "Introduce el numero de la opcion deseada: \n";
 		cin >> numeroSeleccion;
-		cout << "La imagen nueva ya ha sido generada.\n";
 
 		switch (numeroSeleccion) {
 		case 1: // Selección del filtro de difuminado
@@ -44,7 +46,18 @@ int main(int argc, char** argv) {
 			aplicarConvolucion(imagen1, imagen2);
 			imagen2.WriteBMP(nombreImagenNueva);
 			break;
-		case 2:
+		case 2: // Seleccion del filtro de nitidez
+			cout << "Introduce nombre de la imagen resultado: ";
+			cin >> nombreImagenNueva;
+			aplicarConvolucion(imagen1, imagen2);
+			imagen2.WriteBMP(nombreImagenNueva);
+			break;
+		case 3: // Seleccion del filtro de contorno
+			cout << "Introduce nombre de la imagen resultado: ";
+			cin >> nombreImagenNueva;
+			aplicarConvolucion(imagen1, imagen2);
+			imagen2.WriteBMP(nombreImagenNueva);
+			break;
 		}
 	}
 	// Si no existe, se muestra un mensaje indicando que no se ha podido encontrar
@@ -58,9 +71,9 @@ int main(int argc, char** argv) {
 
 void aplicarConvolucion(C_Image imagen, C_Image& imagen2) {
 	int i, j, k, l;
-	C_Matrix filtro(1, 3, 1, 3);//creo una matriz llamada filtro de tamnio 3x3
+	C_Matrix filtro(1, 3, 1, 3);//Se crea una matriz llamada filtro de tamaño 3x3
 
-	creacionFiltro(filtro);//Llamo al metodo donde se ecuentran los tipos de filtros
+	crearFiltro(filtro);//Llamo al metodo donde se encuentran los tipos de filtros
 	for (i = imagen.FirstRow(); i <= imagen.LastRow(); i++) {//Recorro filas de la imagen
 		//C_Trace2Num("Estado",i,imagen.LastRow());
 		for (j = imagen.FirstCol(); j <= imagen.LastCol(); j++){//Recorro columnas de la imagen 
@@ -99,24 +112,30 @@ void aplicarConvolucion(C_Image imagen, C_Image& imagen2) {
 	}
 }
 
-double calcularConvolucion(C_Image m, C_Matrix filtro) {
+double calcularConvolucion(C_Image matriz, C_Matrix filtro) {
 	int i, j;
 	double suma;
 
 	suma = 0;
-	for (i = m.FirstRow(); i <= m.LastRow(); i++) {
-		for (j = m.FirstCol(); j <= m.LastCol(); j++) {
-			suma = suma + m(i, j) * filtro(i, j);
+	for (i = matriz.FirstRow(); i <= matriz.LastRow(); i++) {
+		for (j = matriz.FirstCol(); j <= matriz.LastCol(); j++) {
+			suma = suma + matriz(i, j) * filtro(i, j);
 		}
 	}
 
 	return suma;
 }
 
-void creacionFiltro(C_Matrix& filtro) {
-	int seleccionFiltro, i, j;
+void crearFiltro(C_Matrix& filtro) {
+	//int creacionFiltro;
+	//cout << "A continuacion, se mostraran los diferentes filtros disponibles:\n";
+	//cout << "1 para aplicar filtro de difuminado.\n";
+	//cout << "2 para aplicar filtro de nitidez.\n";
+	//cout << "3 para aplicar filtro de contorno.\n";
+	//cout << "Introduce el numero del filtro deseado: \n";
+	//cin >> creacionFiltro;
 
-	switch (seleccionFiltro) {
+	switch (numeroSeleccion) {
 	case 1:
 		//Filtro de Difuminado
 		filtro(1, 1) = 1/9;
